@@ -1,33 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+//import { useState, useEffect } from 'react';
+
+const filmList = [
+  { title: 'Inception', genre: 'Fantascienza' },
+  { title: 'Il Padrino', genre: 'Thriller' },
+  { title: 'Titanic', genre: 'Romantico' },
+  { title: 'Batman', genre: 'Azione' },
+  { title: 'Interstellar', genre: 'Fantascienza' },
+  { title: 'Pulp Fiction', genre: 'Thriller' },
+]
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [film, setFilm] = useState(filmList);
+  const [genreType, setGenreType] = useState('')
+
+  useEffect(() => {
+
+    if (genreType === "") {
+      setFilm(filmList)
+    } else {
+      setFilm(filmList.filter((film) => film.genre === genreType))
+    }
+
+
+
+  }, [genreType]);
+
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <select onChange={(e) => setGenreType(e.target.value)}>
+        <option value="">All films</option>
+        <option value="Fantascienza">Fantascienza</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Romantico">Romantico</option>
+        <option value="Azione">Azione</option>
+      </select>
+
+
+      {film.map((films, index) => (
+        <li key={index}>{films.title}</li>
+      ))}
+
+
     </>
   )
 }
